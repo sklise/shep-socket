@@ -22,6 +22,7 @@
     "request": "2.16.6",
     "socket.io": "0.9.10",
     "string": "1.1.0",
-    "underscore" : "1.4.4"
+    "underscore" : "1.4.4",
+    "newrelic":""
   }
 }

@@ -9,6 +9,7 @@ var http = require('http'),
   redisUrl = url.parse(process.env.REDISTOGO_URL || 'redis://localhost:6379'),
   emoji = require('emoji-images'),
   _ = require('underscore');
+  require('newrelic');
 
 var port = process.env.PORT || 5000;
 var sessionStore = new RedisStore({port: redisUrl.port, host: redisUrl.hostname, pass: redisUrl.password});
