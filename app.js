@@ -6,7 +6,7 @@ var http = require('http'),
   RedisStore = require('connect-redis')(express),
   request = require('request'),
   S = require('string'),
-  redisUrl = url.parse(process.env.REDISTOGO_URL || 'redis://localhost:6379'),
+  redisUrl = url.parse(process.env.OPENREDIS_URL || 'redis://localhost:6379'),
   emoji = require('emoji-images'),
   _ = require('underscore')
 
