@@ -113,10 +113,8 @@ io.sockets.on('connection', function (socket) {
       timestamp: Date.now()
     }
 
-    client.sadd('logs:' + data.channel, JSON.stringify(msg), function (err, res) {
-      console.log(err, res)
-      if (err) {
-      }
+    client.rpush('chats:' + data.channel, JSON.stringify(msg), function (err, res) {
+      console.log('Redis', err, res)
     })
 
     // Forward the message to Shep
