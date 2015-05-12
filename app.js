@@ -6,7 +6,7 @@ var http = require('http'),
   RedisStore = require('connect-redis')(express),
   request = require('request'),
   S = require('string'),
-  redisUrl = url.parse(process.env.REDISTOGO_URL || 'redis://localhost:6379'),
+  redisUrl = url.parse(process.env.OPENREDIS_URL || 'redis://localhost:6379'),
   emoji = require('emoji-images'),
   _ = require('underscore')
 
@@ -127,12 +127,12 @@ io.sockets.on('connection', function (socket) {
     }}, function (err, res, body) {
       if (err) {
         console.log('ERROR TALKING TO SHEP')
-        io.sockets.in(socket.currentRoom).emit('message', {
-          timestamp: Date.now(),
-          nickname: 'SYSTEM',
-          channel: data.channel,
-          content: 'There was an error talking to Shep.'
-        })
+      // io.sockets.in(socket.currentRoom).emit('message', {
+      //   timestamp: Date.now(),
+      //   nickname: 'SYSTEM',
+      //   channel: data.channel,
+      //   content: 'There was an error talking to Shep.'
+      // })
       }
     })
 
