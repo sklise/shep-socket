@@ -56,7 +56,7 @@ var preprocessMessage = function (m) {
     .replace(/(^|\s)(https?:\/\/[^\s<]+[^<.,:;"')\]\s])/, "<a target='_blank' href='$2'>$2</a>")
     .replace(/\*([^\*]*)\*/g, '<strong>$1</strong>')
     .replace(/\b_([^_]*)_\b/gi, '<em>$1</em>')
-    .replace(/\b~([^~]*)~\b/gi, "<span class='comic'>$1</span>")
+    .replace(/~([^~]*)~/gi, "<span class='comic'>$1</span>")
     .replace(/(\W|^)\-([^\-]*)\-(\W|$)/gi, '$1<del>$2</del>$3')
 }
 
