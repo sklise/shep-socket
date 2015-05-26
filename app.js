@@ -6,7 +6,7 @@ var http = require('http'),
   RedisStore = require('connect-redis')(express),
   request = require('request'),
   S = require('string'),
-  redisUrl = url.parse(process.env.OPENREDIS_URL || 'redis://localhost:6379'),
+  redisUrl = url.parse(process.env.REDISTOGO_URL || 'redis://localhost:6379'),
   emoji = require('emoji-images'),
   _ = require('underscore')
 
@@ -17,11 +17,10 @@ var cookieParser = express.cookieParser('secert')
 redisUrl.password = (function () {
   if (redisUrl.auth) {
     return redisUrl.auth.split(':')[1]
-  } else
+  } else {
     return null
+  }
 })()
-
-console.log('\033[34mbooting shep.info\033[0m')
 
 // Configure Express
 app.configure(function () {
@@ -39,12 +38,12 @@ var server = http.createServer(app).listen(port)
 // Create Redis client
 var client = redis.createClient(redisUrl.port, redisUrl.hostname)
 client.auth(redisUrl.password, function (err, reply) {
-  if (err) { console.log('Error connecting to Redis'); }
+  if (err) { console.log('Error connecting to Redis') }
 })
 
 // On server start, erase all users and quickly add Shep back.
 client.keys('users:*', function (err, reply) {
-  if (err) return
+  if (err) { return }
   _.forEach(reply, function (key) {
     client.del(key)
     client.sadd(key, 'shep')
@@ -78,7 +77,7 @@ io.sockets.on('connection', function (socket) {
     socket.join(msg.currentRoom)
 
     socket.get('rooms', function (err, rooms) {
-      if (err) { return; }
+      if (err) { return }
       _.forEach(rooms, function (room) {
         socket.join(room)
         client.sismember('users:' + room, msg.nickname, function (err, reply) {
@@ -166,7 +165,6 @@ io.sockets.on('connection', function (socket) {
 
 app.post('/responses/:channel', function (req, res) {
   console.log('[[ FROM SHEP ]] ', req.params['channel'], req.params, req.body)
-  var jBody = req.body
   var m = {
     'channel': req.params.channel,
     'content': req.body.message.replace(/(https?:\/\/[^\s<]+[^<.,:;"')\]\s])/, "<a target='_blank' href='$1'>$1</a>"),
